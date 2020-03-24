@@ -6,15 +6,16 @@ namespace XMLReader
     class Program
     {
 
-        public string[] Line = new string[7];
-
+        public static string[] Line = new string[5];
+        public static string[] TegsStr = new string[10];
+        public static string Teg;
 
         static void Main(string[] args)
         {
-            Reader();
+            ReadAll();
         }
 
-        static void Reader()
+        static void ReadAll()
         {
             StreamReader sr = new StreamReader("xml.txt");
             int i = 0;
@@ -24,6 +25,25 @@ namespace XMLReader
                 i++;
             }
             
+        }
+
+        static void AddTegs()
+        {
+            for(int i = 0; i < TegsStr.Length; i++)
+            {
+                for(int j = 0; j < Line[i].Length; j++)
+                {
+                    if (Line[i][j] == '<')
+                    {
+                        int k = 0;
+                        while(Line[i][j] != '>')
+                        {
+                            Teg[k] = Line[i][j + k];
+                            k++;
+                        }
+                    }
+                }
+            }
         }
 
     }
