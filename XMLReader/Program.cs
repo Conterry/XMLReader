@@ -8,11 +8,15 @@ namespace XMLReader
 
         public static string[] Line = new string[5];
         public static string[] TegsStr = new string[10];
-        public static string Teg;
 
         static void Main(string[] args)
         {
             ReadAll();
+            AddTegs();
+            for(int i=0; i < TegsStr.Length; i++)
+            {
+                Console.WriteLine(TegsStr[i]);
+            }
         }
 
         static void ReadAll()
@@ -38,9 +42,10 @@ namespace XMLReader
                         int k = 0;
                         while(Line[i][j] != '>')
                         {
-                            Teg[k] = Line[i][j + k];
+                            
                             k++;
                         }
+                        TegsStr[j] = Line[i].Substring(j, k);
                     }
                 }
             }
