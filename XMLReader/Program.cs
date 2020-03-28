@@ -33,23 +33,43 @@ namespace XMLReader
 
         static void AddTegs()
         {
-            for(int i = 0; i < TegsStr.Length; i++)
+            int numofstr = 0;
+            while (numofstr <= Line.Length)
             {
-                for(int j = 0; j < Line[i].Length; j++)
+                string Text = GetStr(numofstr);
+                int start = 0, finish = 0;
+                for (int i = 0; i < TegsStr.Length; i++)
                 {
-                    if (Line[i][j] == '<')
+
+                    
+                    while (Text[start] != '<')
                     {
-                        int k = 0;
-                        while(Line[i][j] != '>')
-                        {
-                            
-                            k++;
-                        }
-                        TegsStr[j] = Line[i].Substring(j, k);
+                        start++;
                     }
+                    while (Text[finish] != '>')
+                    {
+                        finish++;
+                    }
+
+                    TegsStr[i] = Text.Substring(start + 1, finish - 1);
+
+
+
                 }
+                numofstr++;
             }
         }
+
+
+        //TegsStr[j] = Line[i].Substring(j, k);
+        
+
+        static string GetStr(int i)
+        {
+            string TheString = Line[i];
+            return TheString;
+        }
+
 
     }
 }
