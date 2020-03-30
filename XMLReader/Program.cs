@@ -1,19 +1,22 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
+
+
 
 namespace XMLReader
 {
     class Program
     {
 
-        public static string[] Line = new string[5];
-        public static string[] TegsStr = new string[10];
+        public static List<string> Line = new List<string>();
+        public static List<string> TegsStr = new List<string>();
 
         static void Main(string[] args)
         {
             ReadAll();
             AddTegs();
-            for(int i=0; i < TegsStr.Length; i++)
+            for(int i=0; i < TegsStr.Count; i++)
             {
                 Console.WriteLine(TegsStr[i]);
             }
@@ -22,41 +25,59 @@ namespace XMLReader
         static void ReadAll()
         {
             StreamReader sr = new StreamReader("xml.txt");
-            int i = 0;
+            
             while (!sr.EndOfStream)
             {
-                Line[i] = sr.ReadLine();
-                i++;
+                Line.Add(sr.ReadLine());
             }
             
         }
 
+
+
+
         static void AddTegs()
         {
-            int numofstr = 0;
-            while (numofstr <= Line.Length)
+            
+            for (int numofstr = 0; numofstr < Line.Count; numofstr++)
             {
                 string Text = GetStr(numofstr);
-                int start = 0, finish = 0;
-                for (int i = 0; i < TegsStr.Length; i++)
+                int a = 0;
+                while(a < Text.Length)
                 {
 
-                    
-                    while (Text[start] != '<')
+                    int start = a, finish = a;
+                    while (Text[start] != '<' && a< Text.Length)
                     {
                         start++;
+                        a++;
+                        
                     }
-                    while (Text[finish] != '>')
+                    if (a >= Text.Length)
                     {
+                        break;
+                    }
+                    finish = a;
+                    while (Text[finish] != '>' && a < Text.Length)
+                    {
+                        
                         finish++;
+                        a++;
+                    }
+                    if (a == Text.Length - 1) 
+                    {
+                        
+                        if (Text[a] == '>')
+                        {
+                            string Teststr = Text.Substring(start + 1, finish-start-1);
+                            TegsStr.Add(Teststr);
+                        }
+                        break;
                     }
 
-                    TegsStr[i] = Text.Substring(start + 1, finish - 1);
-
-
+                    TegsStr.Add(Text.Substring(start + 1, finish-start-1));
 
                 }
-                numofstr++;
             }
         }
 
